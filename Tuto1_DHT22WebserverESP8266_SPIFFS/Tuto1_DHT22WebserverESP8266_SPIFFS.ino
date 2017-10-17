@@ -26,22 +26,17 @@
  */
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
-#include <DHT.h>
-#include <Adafruit_BMP085.h>
 #include <FS.h>
 
-#define ssid      "yourSSID"      // WiFi SSID
-#define password  "yourPASSWORD"  // WiFi password
-#define DHTTYPE   DHT22           // DHT type (DHT11, DHT22)
-#define DHTPIN    D4              // Broche du DHT - DHT Pin
+#define ssid      "Ranoldi"      // WiFi SSID
+#define password  "qwerty123456789"  // WiFi password
+
 const uint8_t GPIOPIN[4] = {D5,D6,D7,D8};  // Led
 float   t = 0 ;
 float   h = 0 ;
 float   pa = 0;
 
 // Création des objets - create Objects
-DHT dht(DHTPIN, DHTTYPE);
-Adafruit_BMP085 bmp;
 ESP8266WebServer server ( 80 );
 
 void setup() {
@@ -51,12 +46,7 @@ void setup() {
   
   Serial.begin ( 115200 );
   // Initialisation du BMP180 - Init BMP180
-  if ( !bmp.begin() ) {
-    Serial.println("BMP180 KO!");
-    while (1);
-  } else {
-    Serial.println("BMP180 OK");
-  }
+ 
 
   WiFi.begin ( ssid, password );
   // Attente de la connexion au réseau WiFi - Wait for WiFi connection
@@ -89,9 +79,7 @@ void setup() {
 void loop() {
   // Vérifie régulière la connexion de nouveaux clients - Regularly checks the connection of new clients
   server.handleClient();
-  t = dht.readTemperature();
-  h = dht.readHumidity();
-  pa = bmp.readPressure() / 100.0F;
+
   delay(100);
 }
 
